@@ -44,7 +44,14 @@ internal class Library : LibraryOperations
 
     public bool RemoveBook(string isbn)
     {
-        bool flag = _books.Remove(isbn, out var book);
+        var book = FindBook(isbn);
+
+        if (book != null && !book.IsAvailable)
+        {
+            return false;
+        }
+
+        bool flag = _books.Remove(isbn, out book);
 
         if (book is not null)
         {
